@@ -11,17 +11,17 @@ import (
 	"github.com/rest-api/utils"
 )
 
-func GetAll(w http.ResponseWriter, r *http.Request, resp *utils.ApiResponse) {
+func GetAll(hp *utils.HttpPackage) {
 	result, status, err := models.GetAllData()
-	resp.Result, resp.Status, resp.Error = result, status, err.Error()
-	resp.SendResponse(w)
+	hp.Response.Result, hp.Response.Status, hp.Response.Error = result, status, err.Error()
+	hp.SendResponse()
 }
 
-func Set(w http.ResponseWriter, r *http.Request, resp *utils.ApiResponse) {
+func Set(hp *utils.HttpPackage) {
 	reqBody := models.Data{}
-	if err := jsoner.DecodeJSON(r.Body, &reqBody); err != nil {
-		resp.Result, resp.Status, resp.Error = nil, http.StatusInternalServerError, err.Error()
-		resp.SendResponse(w)
+	if err := jsoner.DecodeJSON(hp.R.Body, &reqBody); err != nil {
+		hp.Response.Result, hp.Response.Status, hp.Response.Error = nil, http.StatusInternalServerError, err.Error()
+		hp.SendResponse()
 		return
 	}
 	missings := []string{}
@@ -34,23 +34,23 @@ func Set(w http.ResponseWriter, r *http.Request, resp *utils.ApiResponse) {
 	if len(missings) > 0 {
 		err := fmt.Errorf("json: missing field %q", strings.Join(missings, ","))
 		logger.ErrorLogger.Println(err.Error())
-		resp.Result, resp.Status, resp.Error = nil, http.StatusBadRequest, err.Error()
-		resp.SendResponse(w)
+		hp.Response.Result, hp.Response.Status, hp.Response.Error = nil, http.StatusBadRequest, err.Error()
+		hp.SendResponse()
 		return
 	}
 	result, status, err := models.AddData(&reqBody)
-	resp.Result, resp.Status, resp.Error = result, status, err.Error()
-	resp.SendResponse(w)
+	hp.Response.Result, hp.Response.Status, hp.Response.Error = result, status, err.Error()
+	hp.SendResponse()
 }
 
-func Get(w http.ResponseWriter, r *http.Request, resp *utils.ApiResponse) {
-	URIKey, err := utils.GetURIKeys(r, "key", 1)
+func Get(hp *utils.HttpPackage) {
+	URIKey, err := utils.GetURIKeys(hp.R, "key", 1)
 	if err != nil {
-		resp.Result, resp.Status, resp.Error = nil, http.StatusRequestedRangeNotSatisfiable, err.Error()
-		resp.SendResponse(w)
+		hp.Response.Result, hp.Response.Status, hp.Response.Error = nil, http.StatusRequestedRangeNotSatisfiable, err.Error()
+		hp.SendResponse()
 		return
 	}
 	result, status, err := models.GetData(fmt.Sprintf("%v", URIKey.([]string)[0]))
-	resp.Result, resp.Status, resp.Error = result, status, err.Error()
-	resp.SendResponse(w)
+	hp.Response.Result, hp.Response.Status, hp.Response.Error = result, status, err.Error()
+	hp.SendResponse()
 }

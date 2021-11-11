@@ -1,15 +1,13 @@
 package config
 
 import (
-	"net/http"
-
 	"github.com/rest-api/app/controllers"
 	"github.com/rest-api/utils"
 )
 
 type Route struct {
 	Path    string
-	Handler func(http.ResponseWriter, *http.Request, *utils.ApiResponse)
+	Handler func(*utils.HttpPackage)
 	Method  string
 }
 
