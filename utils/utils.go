@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/rest-api/app/libraries/jsoner"
 	"github.com/rest-api/app/libraries/logger"
@@ -41,6 +42,21 @@ func GetURIKeys(r *http.Request, paramKey string, expectLen int) (interface{}, e
 		return nil, errors.New(errStr)
 	}
 	return URIKeys, nil
+}
+
+func StructHandler(structKeyValMap map[string]interface{}) error {
+	missings := []string{}
+	for key, value := range structKeyValMap {
+		if value == "" || value == nil {
+			missings = append(missings, key)
+		}
+	}
+	if len(missings) > 0 {
+		err := fmt.Errorf("json: missing field %q", strings.Join(missings, ","))
+		logger.ErrorLogger.Println(err.Error())
+		return err
+	}
+	return nil
 }
 
 func CorsHandler(f func(*HttpPackage), method string) http.HandlerFunc {

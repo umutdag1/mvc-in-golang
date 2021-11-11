@@ -3,10 +3,9 @@ package controllers
 import (
 	"fmt"
 	"net/http"
-	"strings"
+	"reflect"
 
 	"github.com/rest-api/app/libraries/jsoner"
-	"github.com/rest-api/app/libraries/logger"
 	"github.com/rest-api/app/models"
 	"github.com/rest-api/utils"
 )
@@ -24,16 +23,12 @@ func Set(hp *utils.HttpPackage) {
 		hp.SendResponse()
 		return
 	}
-	missings := []string{}
-	if reqBody.Key == "" {
-		missings = append(missings, "key")
+	v := reflect.ValueOf(reqBody)
+	structKeyValMap := make(map[string]interface{})
+	for i := 0; i < v.Type().NumField(); i++ {
+		structKeyValMap[v.Type().Field(i).Tag.Get("json")] = v.Field(i).Interface()
 	}
-	if reqBody.Val == nil {
-		missings = append(missings, "value")
-	}
-	if len(missings) > 0 {
-		err := fmt.Errorf("json: missing field %q", strings.Join(missings, ","))
-		logger.ErrorLogger.Println(err.Error())
+	if err := utils.StructHandler(structKeyValMap); err != nil {
 		hp.Response.Result, hp.Response.Status, hp.Response.Error = nil, http.StatusBadRequest, err.Error()
 		hp.SendResponse()
 		return
