@@ -37,7 +37,8 @@ func GetURIKeys(r *http.Request, paramKey string, expectLen int) (interface{}, e
 	return URIKeys, nil
 }
 
-func CorsHandler(f http.HandlerFunc, method string) http.HandlerFunc {
+func CorsHandler(f func(http.ResponseWriter, *http.Request, *ApiResponse), method string) http.HandlerFunc {
+	responseDataApi := ApiResponse{}
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != method {
 			errStr := fmt.Sprintf("%v - %v Not Implemented", r.URL.Path, r.Method)
@@ -48,8 +49,7 @@ func CorsHandler(f http.HandlerFunc, method string) http.HandlerFunc {
 		}
 		logger.InfoLogger.Printf("%v - %v Received Request", r.URL.Path, r.Method)
 		w.Header().Set("Access-Control-Allow-Origin", "*")
-		//w.Header().Set("Access-Control-Allow-Methods", "GET, POST, DELETE")
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-		f(w, r)
+		f(w, r, &responseDataApi)
 	}
 }

@@ -4,11 +4,12 @@ import (
 	"net/http"
 
 	"github.com/rest-api/app/controllers"
+	"github.com/rest-api/utils"
 )
 
 type Route struct {
 	Path    string
-	Handler func(http.ResponseWriter, *http.Request)
+	Handler func(http.ResponseWriter, *http.Request, *utils.ApiResponse)
 	Method  string
 }
 

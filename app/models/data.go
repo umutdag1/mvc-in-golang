@@ -1,11 +1,11 @@
 package models
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/rest-api/app/libraries/logger"
 	"github.com/rest-api/database"
-	"github.com/rest-api/utils"
 )
 
 type Data struct {
@@ -13,57 +13,40 @@ type Data struct {
 	Val interface{} `json:"value"`
 }
 
-func GetAllData() *utils.ApiResponse {
+func GetAllData() (interface{}, int, error) {
 	logger.InfoLogger.Println("getting all data")
-	resp := &utils.ApiResponse{}
 	data, err := database.GetAllData()
 	if err != nil {
 		logger.ErrorLogger.Println(err.Error())
-		resp.Error = err.Error()
-		resp.Status = http.StatusInternalServerError
-		return resp
+		return nil, http.StatusInternalServerError, err
 	}
 	logger.InfoLogger.Println("got all data successfully")
-	resp.Result = data
-	resp.Status = http.StatusOK
-	return resp
+	return data, http.StatusOK, fmt.Errorf("")
 }
 
-func GetData(key string) *utils.ApiResponse {
+func GetData(key string) (interface{}, int, error) {
 	logger.InfoLogger.Println("getting data")
-	resp := &utils.ApiResponse{}
 	data, err := database.GetData(key)
 	if err != nil {
 		logger.ErrorLogger.Println(err.Error())
-		resp.Error = err.Error()
-		resp.Status = http.StatusExpectationFailed
-		return resp
+		return nil, http.StatusExpectationFailed, err
 	}
 	logger.InfoLogger.Println("got data successfully")
-	resp.Result = data
-	resp.Status = http.StatusOK
-	return resp
+	return data, http.StatusOK, fmt.Errorf("")
 }
 
-func AddData(reqBody *Data) *utils.ApiResponse {
+func AddData(reqBody *Data) (interface{}, int, error) {
 	logger.InfoLogger.Println("adding data")
 	err := database.AddData(reqBody.Key, reqBody.Val)
-	resp := &utils.ApiResponse{}
 	if err != nil {
 		logger.ErrorLogger.Println(err.Error())
-		resp.Error = err.Error()
-		resp.Status = http.StatusInsufficientStorage
-		return resp
+		return nil, http.StatusInsufficientStorage, err
 	}
 	data, err := database.GetData(reqBody.Key)
 	if err != nil {
 		logger.ErrorLogger.Println(err.Error())
-		resp.Error = err.Error()
-		resp.Status = http.StatusExpectationFailed
-		return resp
+		return nil, http.StatusExpectationFailed, err
 	}
 	logger.InfoLogger.Println("data added successfully")
-	resp.Result = data
-	resp.Status = http.StatusOK
-	return resp
+	return data, http.StatusOK, fmt.Errorf("")
 }

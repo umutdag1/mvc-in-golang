@@ -11,17 +11,16 @@ import (
 	"github.com/rest-api/utils"
 )
 
-func GetAll(w http.ResponseWriter, r *http.Request) {
-	resp := models.GetAllData()
+func GetAll(w http.ResponseWriter, r *http.Request, resp *utils.ApiResponse) {
+	result, status, err := models.GetAllData()
+	resp.Result, resp.Status, resp.Error = result, status, err.Error()
 	resp.SendResponse(w)
 }
 
-func Set(w http.ResponseWriter, r *http.Request) {
+func Set(w http.ResponseWriter, r *http.Request, resp *utils.ApiResponse) {
 	reqBody := models.Data{}
-	resp := &utils.ApiResponse{}
 	if err := jsoner.DecodeJSON(r.Body, &reqBody); err != nil {
-		resp.Error = err.Error()
-		resp.Status = http.StatusInternalServerError
+		resp.Result, resp.Status, resp.Error = nil, http.StatusInternalServerError, err.Error()
 		resp.SendResponse(w)
 		return
 	}
@@ -33,25 +32,25 @@ func Set(w http.ResponseWriter, r *http.Request) {
 		missings = append(missings, "value")
 	}
 	if len(missings) > 0 {
-		logger.ErrorLogger.Printf("json: missing field %q", strings.Join(missings, ","))
-		resp.Error = fmt.Sprintf("json: missing field %q", strings.Join(missings, ","))
-		resp.Status = http.StatusBadRequest
+		err := fmt.Errorf("json: missing field %q", strings.Join(missings, ","))
+		logger.ErrorLogger.Println(err.Error())
+		resp.Result, resp.Status, resp.Error = nil, http.StatusBadRequest, err.Error()
 		resp.SendResponse(w)
 		return
 	}
-	resp = models.AddData(&reqBody)
+	result, status, err := models.AddData(&reqBody)
+	resp.Result, resp.Status, resp.Error = result, status, err.Error()
 	resp.SendResponse(w)
 }
 
-func Get(w http.ResponseWriter, r *http.Request) {
+func Get(w http.ResponseWriter, r *http.Request, resp *utils.ApiResponse) {
 	URIKey, err := utils.GetURIKeys(r, "key", 1)
-	resp := &utils.ApiResponse{}
 	if err != nil {
-		resp.Error = err.Error()
-		resp.Status = http.StatusRequestedRangeNotSatisfiable
+		resp.Result, resp.Status, resp.Error = nil, http.StatusRequestedRangeNotSatisfiable, err.Error()
 		resp.SendResponse(w)
 		return
 	}
-	resp = models.GetData(fmt.Sprintf("%v", URIKey.([]string)[0]))
+	result, status, err := models.GetData(fmt.Sprintf("%v", URIKey.([]string)[0]))
+	resp.Result, resp.Status, resp.Error = result, status, err.Error()
 	resp.SendResponse(w)
 }

@@ -18,6 +18,6 @@ func StartServer() {
 func setHandlers(mux *http.ServeMux) {
 	for _, route := range config.ROUTES {
 		handlerFunc := utils.CorsHandler(route.Handler, route.Method)
-		mux.HandleFunc(route.Path, handlerFunc)
+		mux.Handle(route.Path, handlerFunc)
 	}
 }
