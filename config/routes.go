@@ -2,7 +2,10 @@ package config
 
 import (
 	"os"
+	"path/filepath"
 	"reflect"
+	"runtime"
+	"strings"
 
 	"github.com/rest-api/app/controllers"
 	"github.com/rest-api/app/libraries/logger"
@@ -50,12 +53,17 @@ func GetRoutes() []Route {
 			logger.ErrorLogger.Println("module is not defined")
 			os.Exit(3)
 		}
-		expectedPath := PROJECT_PATH + "/" + CONTROLLER_PATH
-		if packagePath := reflect.TypeOf(route.Module).PkgPath(); packagePath != expectedPath {
-			logger.ErrorLogger.Printf("%q module is not defined", reflect.TypeOf(route.Module).Name())
+		pointerOfFunc := reflect.ValueOf(route.Handler).Pointer()
+		curFilePath, _ := runtime.FuncForPC(pointerOfFunc).FileLine(pointerOfFunc)
+		moduleType := reflect.TypeOf(route.Module)
+		filePathFromModule := strings.ToLower(moduleType.Name()) + ".go"
+		expectedFilePath := CUR_DIR + "/" + CONTROLLER_PATH + "/" + filePathFromModule
+		if matched, _ := filepath.Match(expectedFilePath, curFilePath); !matched {
+			logger.ErrorLogger.Printf("%q module is not defined", moduleType.Name())
 			os.Exit(3)
 		}
 	}
+
 	return ROUTES
 }
 
