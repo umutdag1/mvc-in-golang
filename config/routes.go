@@ -50,7 +50,7 @@ var (
 func GetRoutes() []Route {
 	for _, route := range ROUTES {
 		if route.Module == nil {
-			logger.ErrorLogger.Println("module is not defined")
+			logger.ErrorLogger.Println("Module Is Not Defined")
 			os.Exit(3)
 		}
 		pointerOfFunc := reflect.ValueOf(route.Handler).Pointer()
@@ -59,7 +59,7 @@ func GetRoutes() []Route {
 		filePathFromModule := strings.ToLower(moduleType.Name()) + ".go"
 		expectedFilePath := CUR_DIR + "/" + CONTROLLER_PATH + "/" + filePathFromModule
 		if matched, _ := filepath.Match(expectedFilePath, curFilePath); !matched {
-			logger.ErrorLogger.Printf("%q module is not defined", moduleType.Name())
+			logger.ErrorLogger.Printf("%q Module Is Not Defined", moduleType.Name())
 			os.Exit(3)
 		}
 	}

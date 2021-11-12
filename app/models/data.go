@@ -14,26 +14,26 @@ type Data struct {
 }
 
 func GetAllData() (interface{}, int, error) {
-	logger.InfoLogger.Println("getting all data")
+	logger.InfoLogger.Println("Getting All Data")
 	db := database.GetInMemDB()
-	logger.InfoLogger.Println("got all data successfully")
+	logger.InfoLogger.Println("Got All Data successfully")
 	return db, http.StatusOK, fmt.Errorf("")
 }
 
 func GetData(key string) (interface{}, int, error) {
-	logger.InfoLogger.Println("getting data")
+	logger.InfoLogger.Println("Getting Data")
 	db := database.GetInMemDB()
 	data, err := db.GetData(key)
 	if err != nil {
 		logger.ErrorLogger.Println(err.Error())
 		return nil, http.StatusExpectationFailed, err
 	}
-	logger.InfoLogger.Println("got data successfully")
+	logger.InfoLogger.Println("Got Data Successfully")
 	return data, http.StatusOK, fmt.Errorf("")
 }
 
 func AddData(reqBody *Data) (interface{}, int, error) {
-	logger.InfoLogger.Println("adding data")
+	logger.InfoLogger.Println("Adding Data")
 	db := database.GetInMemDB()
 	err := db.AddData(reqBody.Key, reqBody.Val)
 	if err != nil {
@@ -45,7 +45,7 @@ func AddData(reqBody *Data) (interface{}, int, error) {
 		logger.ErrorLogger.Println(err.Error())
 		return nil, http.StatusExpectationFailed, err
 	}
-	logger.InfoLogger.Println("data added successfully")
+	logger.InfoLogger.Println("Data Added Successfully")
 	return data, http.StatusOK, fmt.Errorf("")
 }
 
