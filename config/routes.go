@@ -47,23 +47,32 @@ var (
 	}
 )
 
-func GetRoutes() []Route {
+func AuthRoutes() {
 	for _, route := range ROUTES {
 		if route.Module == nil {
 			logger.ErrorLogger.Println("Module Is Not Defined")
 			os.Exit(3)
 		}
-		pointerOfFunc := reflect.ValueOf(route.Handler).Pointer()
-		curFilePath, _ := runtime.FuncForPC(pointerOfFunc).FileLine(pointerOfFunc)
+		funcVal := reflect.ValueOf(route.Handler)
+		pointerOfFunc := funcVal.Pointer()
+		runTimeOfFunc := runtime.FuncForPC(pointerOfFunc)
+		curFilePath, _ := runTimeOfFunc.FileLine(pointerOfFunc)
 		moduleType := reflect.TypeOf(route.Module)
-		filePathFromModule := strings.ToLower(moduleType.Name()) + ".go"
-		expectedFilePath := CUR_DIR + "/" + CONTROLLER_PATH + "/" + filePathFromModule
+		fileNameFromModule := strings.ToLower(moduleType.Name()) + ".go"
+		pkgPathPartials := strings.Split(moduleType.PkgPath(), "/")
+		pkgPath := strings.Join(pkgPathPartials[len(pkgPathPartials)-2:], "/")
+		expectedFilePath := ""
+		if pkgPath == CONTROLLER_PATH {
+			expectedFilePath = CUR_DIR + "/" + CONTROLLER_PATH + "/" + fileNameFromModule
+		}
 		if matched, _ := filepath.Match(expectedFilePath, curFilePath); !matched {
-			logger.ErrorLogger.Printf("%q Module Is Not Defined", moduleType.Name())
+			logger.ErrorLogger.Printf("%q Module Or %q Function Is Not Defined", moduleType.Name(), runTimeOfFunc.Name())
 			os.Exit(3)
 		}
 	}
+}
 
+func GetRoutes() []Route {
 	return ROUTES
 }
 

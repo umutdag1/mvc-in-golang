@@ -20,6 +20,7 @@ func StartServer() {
 }
 
 func (sm ServerMux) setHandlers() {
+	config.AuthRoutes()
 	sm.mux.HandleFunc("/", utils.NotFoundHandler(config.MatchRouteWithURL))
 	for _, route := range config.GetRoutes() {
 		handlerFunc := utils.CorsHandler(route.Handler, route.Method)
