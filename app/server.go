@@ -2,6 +2,7 @@ package app
 
 import (
 	"net/http"
+	"reflect"
 
 	"github.com/rest-api/app/libraries/logger"
 	"github.com/rest-api/config"
@@ -17,7 +18,10 @@ func StartServer() {
 
 func setHandlers(mux *http.ServeMux) {
 	for _, route := range config.ROUTES {
-		handlerFunc := utils.CorsHandler(route.Handler, route.Method)
-		mux.Handle(route.Path, handlerFunc)
+		expectedPath := config.PROJECT_PATH + "/" + config.CONTROLLER_PATH
+		if packagePath := reflect.TypeOf(route.Module).PkgPath(); packagePath == expectedPath {
+			handlerFunc := utils.CorsHandler(route.Handler, route.Method)
+			mux.Handle(route.Path, handlerFunc)
+		}
 	}
 }

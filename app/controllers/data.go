@@ -10,6 +10,8 @@ import (
 	"github.com/rest-api/utils"
 )
 
+type Data struct{}
+
 func GetAll(hp *utils.HttpPackage) {
 	result, status, err := models.GetAllData()
 	hp.Response.Result, hp.Response.Status, hp.Response.Error = result, status, err.Error()
