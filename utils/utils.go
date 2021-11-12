@@ -61,21 +61,51 @@ func StructHandler(structKeyValMap map[string]interface{}) error {
 
 func CorsHandler(f func(*HttpPackage), method string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		httpPackage := &HttpPackage{
+		hp := &HttpPackage{
 			W:        w,
 			R:        r,
 			Response: &ApiResponse{},
 		}
 		if r.Method != method {
-			errStr := fmt.Sprintf("%v - %v Not Implemented", r.URL.Path, r.Method)
-			logger.ErrorLogger.Printf(errStr)
+			err := fmt.Errorf("%v - %v not implemented", r.URL.Path, r.Method)
+			logger.ErrorLogger.Printf(err.Error())
 			w.WriteHeader(http.StatusNotImplemented)
-			w.Write([]byte(errStr))
+			w.Write([]byte(err.Error()))
 			return
 		}
 		logger.InfoLogger.Printf("%v - %v Received Request", r.URL.Path, r.Method)
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-		f(httpPackage)
+		f(hp)
 	}
+}
+
+func NotFoundHandler(MatchRouteWithURLFunc func(string) bool) func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		isURLPathExist := false
+		if MatchRouteWithURLFunc(r.URL.Path) {
+			isURLPathExist = true
+		}
+
+		if !isURLPathExist {
+			err := fmt.Errorf("%v - %v not found", r.URL.Path, r.Method)
+			logger.ErrorLogger.Printf(err.Error())
+			w.WriteHeader(http.StatusNotFound)
+			w.Write([]byte(err.Error()))
+			return
+		}
+	}
+}
+
+func GetRealURLPath(url string) string {
+	urlPath := ""
+	urlPartials := strings.Split(url, "/")
+	for _, urlPartial := range urlPartials {
+		if strings.Contains(urlPartial, ":") {
+			continue
+		}
+		urlPath += urlPartial + "/"
+	}
+	urlPath = urlPath[:len(urlPath)-1]
+	return urlPath
 }
