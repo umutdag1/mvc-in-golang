@@ -8,7 +8,7 @@ import (
 )
 
 func DecodeJSON(body io.ReadCloser, toAssign interface{}) error {
-	logger.InfoLogger.Println("decoding body to json")
+	logger.InfoLogger.Println("Decoding Body To JSON")
 	decoder := json.NewDecoder(body)
 	decoder.DisallowUnknownFields()
 	err := decoder.Decode(&toAssign)
@@ -16,18 +16,18 @@ func DecodeJSON(body io.ReadCloser, toAssign interface{}) error {
 		logger.ErrorLogger.Println(err.Error())
 		return err
 	}
-	logger.InfoLogger.Println("decoding successful")
+	logger.InfoLogger.Println("Decoding Successful")
 	return nil
 }
 
 func EncodeJSON(writer io.Writer, toSend interface{}) error {
-	logger.InfoLogger.Println("encoding body to json")
+	logger.InfoLogger.Println("Encoding Body To JSON")
 	encoder := json.NewEncoder(writer)
 	err := encoder.Encode(toSend)
 	if err != nil {
 		logger.ErrorLogger.Println(err.Error())
 		return err
 	}
-	logger.InfoLogger.Println("encoding successful")
+	logger.InfoLogger.Println("Encoding Successful")
 	return nil
 }
