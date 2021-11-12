@@ -57,42 +57,16 @@ func GetRoutes() []Route {
 func GetRoutesPath() []string {
 	paths := make([]string, 0)
 	for _, route := range ROUTES {
-		//path := utils.GetRealURLPath(route.Path)
-		path := route.Path
-		paths = append(paths, path)
+		paths = append(paths, route.Path)
 	}
 	return paths
 }
 
 func MatchRouteWithURL(urlPath string) bool {
 	for _, route := range ROUTES {
-		realRoutePath := utils.GetRealURLPath(route.Path)
-		realUrlPath := utils.GetRealURLPath(urlPath)
-		if realRoutePath == realUrlPath {
+		if route.Path == urlPath {
 			return true
 		}
 	}
 	return false
 }
-
-/*func MatchRouteWithURL(urlPath string) bool {
-	for _, route := range ROUTES {
-		fmt.Println(route.Path, urlPath)
-		urlPartials := strings.Split(urlPath, "/")
-		routePartials := strings.Split(route.Path, "/")
-		if len(urlPartials) != len(routePartials) {
-			continue
-		}
-		isMatch := true
-		for routePartialIndex, routePartial := range routePartials {
-			if strings.Contains(routePartial, ":") {
-				continue
-			} else if urlPartials[routePartialIndex] != routePartial {
-				isMatch = false
-				break
-			}
-		}
-		return isMatch
-	}
-	return false
-}*/

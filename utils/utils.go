@@ -96,16 +96,3 @@ func NotFoundHandler(MatchRouteWithURLFunc func(string) bool) func(w http.Respon
 		}
 	}
 }
-
-func GetRealURLPath(url string) string {
-	urlPath := ""
-	urlPartials := strings.Split(url, "/")
-	for _, urlPartial := range urlPartials {
-		if strings.Contains(urlPartial, ":") {
-			continue
-		}
-		urlPath += urlPartial + "/"
-	}
-	urlPath = urlPath[:len(urlPath)-1]
-	return urlPath
-}
