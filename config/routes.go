@@ -6,12 +6,11 @@ import (
 
 	"github.com/rest-api/app/controllers"
 	"github.com/rest-api/app/libraries/logger"
-	"github.com/rest-api/utils"
 )
 
 type Route struct {
 	Path    string
-	Handler func(*utils.HttpPackage)
+	Handler interface{}
 	Module  interface{}
 	Method  string
 }
@@ -35,6 +34,12 @@ var (
 			Handler: controllers.Get,
 			Module:  controllers.Data{},
 			Method:  "GET",
+		},
+		{
+			Path:    "/api/flushAll",
+			Handler: controllers.FlushAll,
+			Module:  controllers.Data{},
+			Method:  "DELETE",
 		},
 	}
 )

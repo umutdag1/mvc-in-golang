@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"reflect"
 	"strings"
 
 	"github.com/rest-api/app/libraries/jsoner"
@@ -44,10 +45,13 @@ func GetURIKeys(r *http.Request, paramKey string, expectLen int) (interface{}, e
 	return URIKeys, nil
 }
 
-func StructHandler(structKeyValMap map[string]interface{}) error {
+func StructHandler(structVal reflect.Value) error {
 	missings := []string{}
-	for key, value := range structKeyValMap {
-		if value == "" || value == nil {
+	structType := structVal.Type()
+	for i := 0; i < structType.NumField(); i++ {
+		key := structType.Field(i).Tag.Get("json")
+		val := structVal.Field(i).Interface()
+		if val == "" || val == nil {
 			missings = append(missings, key)
 		}
 	}
@@ -59,14 +63,15 @@ func StructHandler(structKeyValMap map[string]interface{}) error {
 	return nil
 }
 
-func CorsHandler(f func(*HttpPackage), method string) http.HandlerFunc {
+func CorsHandler(f interface{}, method string) http.HandlerFunc {
+	ControllerFunc, isControllerFuncExist := f.(func(*HttpPackage))
 	return func(w http.ResponseWriter, r *http.Request) {
 		hp := &HttpPackage{
 			W:        w,
 			R:        r,
 			Response: &ApiResponse{},
 		}
-		if r.Method != method {
+		if r.Method != method || !isControllerFuncExist {
 			err := fmt.Errorf("%v - %v not implemented", r.URL.Path, r.Method)
 			logger.ErrorLogger.Printf(err.Error())
 			w.WriteHeader(http.StatusNotImplemented)
@@ -76,7 +81,7 @@ func CorsHandler(f func(*HttpPackage), method string) http.HandlerFunc {
 		logger.InfoLogger.Printf("%v - %v Received Request", r.URL.Path, r.Method)
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-		f(hp)
+		ControllerFunc(hp)
 	}
 }
 

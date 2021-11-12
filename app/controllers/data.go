@@ -25,12 +25,7 @@ func Set(hp *utils.HttpPackage) {
 		hp.SendResponse()
 		return
 	}
-	v := reflect.ValueOf(reqBody)
-	structKeyValMap := make(map[string]interface{})
-	for i := 0; i < v.Type().NumField(); i++ {
-		structKeyValMap[v.Type().Field(i).Tag.Get("json")] = v.Field(i).Interface()
-	}
-	if err := utils.StructHandler(structKeyValMap); err != nil {
+	if err := utils.StructHandler(reflect.ValueOf(reqBody)); err != nil {
 		hp.Response.Result, hp.Response.Status, hp.Response.Error = nil, http.StatusBadRequest, err.Error()
 		hp.SendResponse()
 		return
@@ -49,5 +44,11 @@ func Get(hp *utils.HttpPackage) {
 	}
 	result, status, err := models.GetData(fmt.Sprintf("%v", URIKey.([]string)[0]))
 	hp.Response.Result, hp.Response.Status, hp.Response.Error = result, status, err.Error()
+	hp.SendResponse()
+}
+
+func FlushAll(hp *utils.HttpPackage) {
+	db := models.DeleteAllData()
+	hp.Response.Result, hp.Response.Status, hp.Response.Error = db, http.StatusOK, fmt.Errorf("").Error()
 	hp.SendResponse()
 }
