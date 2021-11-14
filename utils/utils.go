@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"errors"
 	"fmt"
 	"net/http"
 	"reflect"
@@ -38,9 +37,9 @@ func (hp *HttpPackage) SendResponse() {
 func GetURIKeys(r *http.Request, paramKey string, expectLen int) (interface{}, error) {
 	URIKeys, OK := r.URL.Query()[paramKey]
 	if !OK || len(URIKeys) != expectLen {
-		errStr := "url param \"key\" is not existed or range is not satisfied"
-		logger.ErrorLogger.Println(errStr)
-		return nil, errors.New(errStr)
+		err := fmt.Errorf("url param \"key\" is not existed or range is not satisfied")
+		logger.ErrorLogger.Println(err.Error())
+		return nil, err
 	}
 	return URIKeys, nil
 }

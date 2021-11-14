@@ -5,6 +5,7 @@ import (
 
 	"github.com/rest-api/app/libraries/logger"
 	"github.com/rest-api/config"
+	"github.com/rest-api/config/routes"
 	"github.com/rest-api/utils"
 )
 
@@ -20,9 +21,9 @@ func StartServer() {
 }
 
 func (sm ServerMux) setHandlers() {
-	sm.mux.HandleFunc("/", utils.NotFoundHandler(config.MatchRouteWithURL))
-	for _, route := range config.GetRoutes() {
-		config.AuthRoute(route.Handler, route.Module)
+	sm.mux.HandleFunc("/", utils.NotFoundHandler(routes.MatchRouteWithURL))
+	for _, route := range routes.GetRoutes() {
+		routes.AuthRoute(route.Handler, route.Module)
 		handlerFunc := utils.CorsHandler(route.Handler, route.Method)
 		sm.mux.Handle(route.Path, handlerFunc)
 	}

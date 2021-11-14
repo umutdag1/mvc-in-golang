@@ -1,4 +1,4 @@
-package config
+package routes
 
 import (
 	"os"
@@ -9,6 +9,7 @@ import (
 
 	"github.com/rest-api/app/controllers"
 	"github.com/rest-api/app/libraries/logger"
+	"github.com/rest-api/config"
 )
 
 type Route struct {
@@ -61,8 +62,8 @@ func AuthRoute(handler, module interface{}) {
 	pkgPathPartials := strings.Split(moduleType.PkgPath(), "/")
 	pkgPath := strings.Join(pkgPathPartials[len(pkgPathPartials)-2:], "/")
 	expectedFilePath := ""
-	if pkgPath == CONTROLLER_PATH {
-		expectedFilePath = CUR_DIR + "/" + CONTROLLER_PATH + "/" + fileNameFromModule
+	if pkgPath == config.CONTROLLER_PATH {
+		expectedFilePath = config.CUR_DIR + "/" + config.CONTROLLER_PATH + "/" + fileNameFromModule
 	}
 	if matched, _ := filepath.Match(expectedFilePath, curFilePath); !matched {
 		logger.ErrorLogger.Printf("%q Module Or %q Function Is Not Defined", moduleType.Name(), runTimeOfFunc.Name())

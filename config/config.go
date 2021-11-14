@@ -13,4 +13,5 @@ var (
 		dir, _ := os.Getwd()
 		return strings.ReplaceAll(dir, "\\", "/")
 	}()
+	FILE_OUTPUT_PATH = CUR_DIR + "/tmp"
 )

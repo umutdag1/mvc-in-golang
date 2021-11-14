@@ -19,6 +19,7 @@ func GetAll(hp *utils.HttpPackage) {
 }
 
 func Set(hp *utils.HttpPackage) {
+	//f, err := filer.OpenFile(config.FILE_OUTPUT_PATH, "data", "json")
 	reqBody := models.Data{}
 	if err := jsoner.DecodeJSON(hp.R.Body, &reqBody); err != nil {
 		hp.Response.Result, hp.Response.Status, hp.Response.Error = nil, http.StatusInternalServerError, err.Error()

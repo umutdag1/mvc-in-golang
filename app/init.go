@@ -8,4 +8,5 @@ import (
 func Init() {
 	database.InitInMemDB()
 	logger.InitLoggers()
+	//filer.CreateFile("a", "txt")
 }
