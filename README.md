@@ -14,6 +14,12 @@ HandMade Framework MVC Design Pattern'ü kullanılarak Controller ve Model barı
 - Belli Süre Aralıklarıyla Programın Açılışından İtibaren InMemory'de Tutulan Dataları JSON Olarak Dosyaya Kayıt Etme Özelliği
 - Elle Yazılmış Birkaç Kütüphane (JSONHANDLER-FILEHANDLER-FOLDERHANDLER-LOGHANDLER)
 
+## Kütüphane Özellikler
+- JSONHANDLER : JSON ile ilgili olaylarla ilgilenen yapılar barındırmaktadır.
+- FILEHANDLER : File(Dosya) ile ilgili olaylarla ilgilenen yapılar barındırmaktadır.
+- FOLDERHANDLER : Folder(Dosya Klasörü) ve altında yer alan Files(Dosyalar) ile ilgili olaylarla ilgilenen yapılar barındırmaktadır.
+- LOGHANDLER : INFO(Bilgilendirme) , WARNING (Uyarı) ya da ERROR (Hata) mesajlarının nasıl ekrana bastırılacağı ile ilgili yapıları barındıran (Handle) yani kendimize göre nasıl bastırılacağını ayarlamamız sağlayan kütüphanedir.
+
 ## Controller
 
 Her MVC Framework'te olduğu gibi HandMade MVC Framework'tede  aynı Controller yapısı bulunmaktadır. Controller eğer bir istek çağırılmışsa, o isteğin handler'ının tanımlandığı kısım Controller'da bulunur. Her Controller'ın kendine ait struct tipinde bir modül tanımlanması gerekmektedir. Böylelikle Controllerda bir dosyanın içerisinde bir endpointe ait fonksiyon tanımlanmışsa ve o dosyaya ait bir modül tanımlanmışsa, modül bulunduğu yerdeki tanımlanan fonksiyonla aynı yerdeyse, program çalıştırıldığında sorunsuz olarak server çalıştırılacaktır. Eşleşmez ise program hatayı basar ve server'i başlatmadan sonlandırır.
