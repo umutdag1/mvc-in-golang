@@ -36,6 +36,7 @@ Model sadece database ya da database gibi davranan teknolojiler ile veri alışv
 | /api/getAll | GET | Parametre Yok. | InMemory'deki bütün dataları alır |
 | /api/get | GET  | /api/get?key="key" | Verilen "key"'e göre datayı getirir |
 | /api/set | POST | JSONBody : {key : "key", value : "value" }  | Verilen "key" ve karşılığı olan "value" InMemory'e kayıt edilir |
+| /api/flushAll | DELETE | Parametre Yok  | InMemory'deki bütün dataları sıfırlar |
 
 ## İndirme
 
