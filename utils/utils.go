@@ -6,8 +6,10 @@ import (
 	"reflect"
 	"strings"
 
+	"github.com/rest-api/app/libraries/filer"
 	"github.com/rest-api/app/libraries/jsoner"
 	"github.com/rest-api/app/libraries/logger"
+	"github.com/rest-api/config"
 )
 
 type ApiResponse struct {
@@ -23,15 +25,63 @@ type HttpPackage struct {
 }
 
 func (hp *HttpPackage) SendResponse() {
-	logger.InfoLogger.Println("sending response to client")
+	logger.InfoLogger.Println("Sending Response To Client")
+	SaveJSONDBFile(hp.Response.Result)
 	hp.W.WriteHeader(hp.Response.Status)
 	if err := jsoner.EncodeJSON(hp.W, hp.Response); err != nil {
-		logger.ErrorLogger.Println(err.Error())
-		hp.W.Write([]byte(http.StatusText(hp.Response.Status)))
-		hp.W.WriteHeader(hp.Response.Status)
+		hp.W.WriteHeader(http.StatusInternalServerError)
+		hp.W.Write([]byte(http.StatusText(http.StatusInternalServerError)))
 		return
 	}
-	logger.InfoLogger.Println("sent json to client successfully")
+	logger.InfoLogger.Println("Sent Response To Client Successfully")
+}
+
+func ReadJSONDBFile(fileName string, toAssign interface{}) error {
+	logger.InfoLogger.Println("Reading JSON DB File")
+	targetPath := config.OUTPUT_PATH + "/" + fileName
+	f, err := filer.OpenFile(targetPath)
+	if err != nil {
+		logger.ErrorLogger.Println(err.Error())
+		return err
+	}
+	data, err := f.ReadFile()
+	if err != nil {
+		logger.ErrorLogger.Println(err.Error())
+		return err
+	}
+	fmt.Println("DataByte :", data)
+	err = jsoner.JSONStructParseFromByteData(data, toAssign)
+	if err != nil {
+		logger.ErrorLogger.Println(err.Error())
+		return err
+	}
+	fmt.Println(toAssign)
+	logger.InfoLogger.Println("Reading JSON DB File Successful")
+	return nil
+}
+
+func SaveJSONDBFile(data interface{}) error {
+	logger.InfoLogger.Println("Saving JSON DB File")
+	if data == nil {
+		return fmt.Errorf("data cannot be saved to file")
+	}
+	dataByte, err := jsoner.JSONParseToByteData(data)
+	if err != nil {
+		logger.ErrorLogger.Println(err.Error())
+		return err
+	}
+	f, err := filer.OpenFile(config.DB_FILE_PATH)
+	if err != nil {
+		logger.ErrorLogger.Println(err.Error())
+		return err
+	}
+	err = f.WriteFile(dataByte)
+	if err != nil {
+		logger.ErrorLogger.Println(err.Error())
+		return err
+	}
+	logger.InfoLogger.Println("Saving JSON DB File Successful")
+	return nil
 }
 
 func GetURIKeys(r *http.Request, paramKey string, expectLen int) (interface{}, error) {

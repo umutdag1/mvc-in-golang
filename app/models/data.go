@@ -1,23 +1,18 @@
 package models
 
 import (
-	"fmt"
 	"net/http"
 
+	"github.com/rest-api/app/libraries/jsoner"
 	"github.com/rest-api/app/libraries/logger"
 	"github.com/rest-api/database"
 )
-
-type Data struct {
-	Key string      `json:"key"`
-	Val interface{} `json:"value"`
-}
 
 func GetAllData() (interface{}, int, error) {
 	logger.InfoLogger.Println("Getting All Data")
 	db := database.GetInMemDB()
 	logger.InfoLogger.Println("Got All Data successfully")
-	return db, http.StatusOK, fmt.Errorf("")
+	return db, http.StatusOK, nil
 }
 
 func GetData(key string) (interface{}, int, error) {
@@ -29,10 +24,10 @@ func GetData(key string) (interface{}, int, error) {
 		return nil, http.StatusExpectationFailed, err
 	}
 	logger.InfoLogger.Println("Got Data Successfully")
-	return data, http.StatusOK, fmt.Errorf("")
+	return data, http.StatusOK, nil
 }
 
-func AddData(reqBody *Data) (interface{}, int, error) {
+func AddData(reqBody *jsoner.Data) (interface{}, int, error) {
 	logger.InfoLogger.Println("Adding Data")
 	db := database.GetInMemDB()
 	err := db.AddData(reqBody.Key, reqBody.Val)
@@ -46,7 +41,7 @@ func AddData(reqBody *Data) (interface{}, int, error) {
 		return nil, http.StatusExpectationFailed, err
 	}
 	logger.InfoLogger.Println("Data Added Successfully")
-	return data, http.StatusOK, fmt.Errorf("")
+	return data, http.StatusOK, nil
 }
 
 func DeleteAllData() interface{} {
@@ -67,5 +62,5 @@ func DeleteData(key string) (interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	return data, fmt.Errorf("")
+	return data, nil
 }

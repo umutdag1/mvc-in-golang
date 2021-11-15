@@ -6,7 +6,7 @@ import (
 )
 
 func Init() {
-	database.InitInMemDB()
 	logger.InitLoggers()
+	database.InitInMemDB()
 	//filer.CreateFile("a", "txt")
 }

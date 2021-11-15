@@ -14,13 +14,17 @@ type Data struct{}
 
 func GetAll(hp *utils.HttpPackage) {
 	result, status, err := models.GetAllData()
-	hp.Response.Result, hp.Response.Status, hp.Response.Error = result, status, err.Error()
+	if err != nil {
+		hp.Response.Result, hp.Response.Status, hp.Response.Error = nil, status, err.Error()
+		hp.SendResponse()
+		return
+	}
+	hp.Response.Result, hp.Response.Status, hp.Response.Error = result, status, ""
 	hp.SendResponse()
 }
 
 func Set(hp *utils.HttpPackage) {
-	//f, err := filer.OpenFile(config.FILE_OUTPUT_PATH, "data", "json")
-	reqBody := models.Data{}
+	reqBody := jsoner.Data{}
 	if err := jsoner.DecodeJSON(hp.R.Body, &reqBody); err != nil {
 		hp.Response.Result, hp.Response.Status, hp.Response.Error = nil, http.StatusInternalServerError, err.Error()
 		hp.SendResponse()
@@ -32,7 +36,12 @@ func Set(hp *utils.HttpPackage) {
 		return
 	}
 	result, status, err := models.AddData(&reqBody)
-	hp.Response.Result, hp.Response.Status, hp.Response.Error = result, status, err.Error()
+	if err != nil {
+		hp.Response.Result, hp.Response.Status, hp.Response.Error = nil, status, err.Error()
+		hp.SendResponse()
+		return
+	}
+	hp.Response.Result, hp.Response.Status, hp.Response.Error = result, status, ""
 	hp.SendResponse()
 }
 
@@ -44,7 +53,12 @@ func Get(hp *utils.HttpPackage) {
 		return
 	}
 	result, status, err := models.GetData(fmt.Sprintf("%v", URIKey.([]string)[0]))
-	hp.Response.Result, hp.Response.Status, hp.Response.Error = result, status, err.Error()
+	if err != nil {
+		hp.Response.Result, hp.Response.Status, hp.Response.Error = nil, status, err.Error()
+		hp.SendResponse()
+		return
+	}
+	hp.Response.Result, hp.Response.Status, hp.Response.Error = result, status, ""
 	hp.SendResponse()
 }
 
