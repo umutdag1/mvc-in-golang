@@ -142,6 +142,18 @@ func CorsHandler(f interface{}, method string) http.HandlerFunc {
 		logger.InfoLogger.Printf("%v - %v Received Request", r.URL.Path, r.Method)
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.Header().Set("Vary", "Origin, Access-Control-Request-Method, Access-Control-Request-Headers")
+
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With, Origin")
+		w.Header().Set("Access-Control-Expose-Headers", "Content-Length, X-JSON")
+		w.Header().Set("Access-Control-Allow-Credentials", "true")
+
+		w.Header().Set("X-Frame-Options", "SAMEORIGIN")
+		w.Header().Set("X-XSS-Protection", "1; mode=block")
+		w.Header().Set("X-Content-Type-Options", "nosniff")
+		w.Header().Set("Referrer-Policy", "strict-origin-when-cross-origin")
 		ControllerFunc(hp)
 	}
 }
