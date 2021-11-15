@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/rest-api/app/libraries/logger"
+	"github.com/rest-api/config"
 	"github.com/rest-api/database"
 	"github.com/rest-api/utils"
 )
@@ -11,7 +12,7 @@ import (
 func Init() {
 	logger.InitLoggers()
 	database.InitInMemDB()
-	go callSaveJSONDBFunc(10)
+	go callSaveJSONDBFunc(int64(config.DURATION_TIME_IN_SECONDS))
 }
 
 func callSaveJSONDBFunc(duration int64) {

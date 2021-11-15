@@ -19,5 +19,5 @@ var (
 		timeStamp := time.Now().Format("2006-01-02T15:04:05")
 		return strings.ReplaceAll(timeStamp, ":", "-")
 	}
-	DATA_JSON_FILE_NAME, DATA_JSON_FILE_EXT = FILE_TIME_STAMP_FUNC() + "-data", "json"
+	DATA_JSON_FILE_NAME, DATA_JSON_FILE_EXT, DURATION_TIME_IN_SECONDS = FILE_TIME_STAMP_FUNC() + "-data", "json", 10
 )
