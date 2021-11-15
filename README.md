@@ -31,11 +31,11 @@ Model sadece database ya da database gibi davranan teknolojiler ile veri alışv
 
 ## API
 
-| EndPoint | Method | Kullanım |
-| ------ | ------ | ------ |
-| /api/getAll | GET | Parametre Yok. |
-| /api/get | GET  | /api/get?key=<key> |
-| /api/set | POST | JSONBody : {key : <key>, value : <value> }  |
+| EndPoint | Method | Kullanım | Özellik |
+| ------ | ------ | ------ | ------ |
+| /api/getAll | GET | Parametre Yok. | InMemory'deki bütün dataları alır |
+| /api/get | GET  | /api/get?key="key" | Verilen "key"'e göre datayı getirir |
+| /api/set | POST | JSONBody : {key : "key", value : "value" }  | Verilen "key" ve karşılığı olan "value" InMemory'e kayıt edilir |
 
 ## İndirme
 
