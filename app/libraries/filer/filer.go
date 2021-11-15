@@ -13,10 +13,6 @@ var (
 	filerF FilerF
 )
 
-type FilerFI interface {
-	WriteFile(interface{})
-}
-
 type FilerF os.File
 
 func CreateFile(targetPath, name, extension string) error {
@@ -26,13 +22,11 @@ func CreateFile(targetPath, name, extension string) error {
 	if !isExist {
 		err := os.Mkdir(targetPath, 0755)
 		if err != nil {
-			logger.ErrorLogger.Println(err.Error())
 			return err
 		}
 	}
 	_, err := os.Create(targetPath + "/" + fileName)
 	if err != nil {
-		logger.ErrorLogger.Println(err.Error())
 		return err
 	}
 	logger.InfoLogger.Println(fmt.Sprintf("Created File %v", targetPath+"/"+fileName))
@@ -47,13 +41,11 @@ func OpenFile(filePath string) (FilerF, error) {
 		folderPath := strings.Join(filePathPartials[:len(filePathPartials)-1], "/")
 		fileNameAndExt := strings.Split(filePathPartials[len(filePathPartials)-1], ".")
 		if err := CreateFile(folderPath, fileNameAndExt[0], fileNameAndExt[1]); err != nil {
-			logger.ErrorLogger.Println(err.Error())
 			return filerF, err
 		}
 	}
 	f, err := os.OpenFile(filePath, os.O_WRONLY, 0644)
 	if err != nil {
-		logger.ErrorLogger.Println(err.Error())
 		return filerF, err
 	}
 	filerF = FilerF(*f)
@@ -62,12 +54,23 @@ func OpenFile(filePath string) (FilerF, error) {
 	return filerF, nil
 }
 
+func (fi *FilerF) CloseFile() error {
+	f := os.File(*fi)
+	err := f.Close()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (fi *FilerF) WriteFile(data []byte) error {
 	f := os.File(*fi)
 	logger.InfoLogger.Println(fmt.Sprintf("Writing File %v", f.Name()))
-	err := os.WriteFile(f.Name(), data, 0644)
-	if err != nil {
-		logger.ErrorLogger.Println(err.Error())
+	if len(data) == 0 {
+		err := fmt.Errorf("data is empty")
+		return err
+	}
+	if err := os.WriteFile(f.Name(), data, 0644); err != nil {
 		return err
 	}
 	logger.InfoLogger.Println(fmt.Sprintf("Written File %v", f.Name()))
@@ -76,10 +79,8 @@ func (fi *FilerF) WriteFile(data []byte) error {
 
 func (fi *FilerF) ReadFile() ([]byte, error) {
 	f := os.File(*fi)
-	fmt.Println(f.Name())
 	dataByte, err := ioutil.ReadFile(f.Name())
 	if err != nil {
-		logger.ErrorLogger.Println(err.Error())
 		return nil, err
 	}
 	return dataByte, err

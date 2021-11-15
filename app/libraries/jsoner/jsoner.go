@@ -18,7 +18,6 @@ func DecodeJSON(body io.ReadCloser, toAssign interface{}) error {
 	decoder.DisallowUnknownFields()
 	err := decoder.Decode(&toAssign)
 	if err != nil {
-		logger.ErrorLogger.Println(err.Error())
 		return err
 	}
 	logger.InfoLogger.Println("Decoding Successful")
@@ -30,7 +29,6 @@ func EncodeJSON(writer io.Writer, toSend interface{}) error {
 	encoder := json.NewEncoder(writer)
 	err := encoder.Encode(toSend)
 	if err != nil {
-		logger.ErrorLogger.Println(err.Error())
 		return err
 	}
 	logger.InfoLogger.Println("Encoding Successful")
@@ -41,7 +39,6 @@ func JSONParseToByteData(data interface{}) ([]byte, error) {
 	logger.InfoLogger.Println("Parsing JSON To Byte Data")
 	byteData, err := json.MarshalIndent(data, "", "")
 	if err != nil {
-		logger.ErrorLogger.Println(err.Error())
 		return nil, err
 	}
 	logger.InfoLogger.Println("Parsing JSON To Byte Data Successful")
@@ -52,7 +49,6 @@ func JSONStructParseFromByteData(data []byte, toAssign interface{}) error {
 	logger.InfoLogger.Println("Parsing Byte Data To JSON")
 	err := json.Unmarshal(data, &toAssign)
 	if err != nil {
-		logger.ErrorLogger.Println(err.Error())
 		return err
 	}
 	logger.InfoLogger.Println("Parsing Byte Data To JSON Successful")

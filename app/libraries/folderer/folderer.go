@@ -12,21 +12,16 @@ var (
 	folderF FolderF
 )
 
-type FolderFI interface {
-}
-
 type FolderF []fs.FileInfo
 
 func OpenFolder(folderPath string) (FolderF, error) {
+	logger.InfoLogger.Println(fmt.Sprintf("Opening Folder %v", folderPath))
 	filesInfo, err := ioutil.ReadDir(folderPath)
 	if err != nil {
-		logger.ErrorLogger.Println(err.Error())
 		return nil, err
 	}
 	folderF = FolderF(filesInfo)
-	for _, f := range filesInfo {
-		fmt.Println(f.Name())
-	}
+	logger.InfoLogger.Println(fmt.Sprintf("Opened Folder %v", folderPath))
 	return folderF, nil
 }
 

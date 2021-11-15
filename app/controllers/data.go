@@ -30,12 +30,12 @@ func Set(hp *utils.HttpPackage) {
 		hp.SendResponse()
 		return
 	}
-	if err := utils.StructHandler(reflect.ValueOf(reqBody)); err != nil {
+	if err := utils.JSONStructHandler(reflect.ValueOf(reqBody)); err != nil {
 		hp.Response.Result, hp.Response.Status, hp.Response.Error = nil, http.StatusBadRequest, err.Error()
 		hp.SendResponse()
 		return
 	}
-	result, status, err := models.AddData(&reqBody)
+	result, _, status, err := models.AddData(&reqBody)
 	if err != nil {
 		hp.Response.Result, hp.Response.Status, hp.Response.Error = nil, status, err.Error()
 		hp.SendResponse()

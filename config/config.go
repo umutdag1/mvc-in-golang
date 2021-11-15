@@ -19,8 +19,5 @@ var (
 		timeStamp := time.Now().Format("2006-01-02T15:04:05")
 		return strings.ReplaceAll(timeStamp, ":", "-")
 	}
-	DB_FILE_PATH = func() string {
-		filePath := OUTPUT_PATH + "/" + FILE_TIME_STAMP_FUNC() + "-data.json"
-		return filePath
-	}()
+	DATA_JSON_FILE_NAME, DATA_JSON_FILE_EXT = FILE_TIME_STAMP_FUNC() + "-data", "json"
 )

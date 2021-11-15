@@ -26,9 +26,10 @@ type HttpPackage struct {
 
 func (hp *HttpPackage) SendResponse() {
 	logger.InfoLogger.Println("Sending Response To Client")
-	SaveJSONDBFile(hp.Response.Result)
+	//SaveJSONDBFile(hp.Response.Result)
 	hp.W.WriteHeader(hp.Response.Status)
 	if err := jsoner.EncodeJSON(hp.W, hp.Response); err != nil {
+		logger.ErrorLogger.Println(err.Error())
 		hp.W.WriteHeader(http.StatusInternalServerError)
 		hp.W.Write([]byte(http.StatusText(http.StatusInternalServerError)))
 		return
@@ -49,13 +50,16 @@ func ReadJSONDBFile(fileName string, toAssign interface{}) error {
 		logger.ErrorLogger.Println(err.Error())
 		return err
 	}
-	fmt.Println("DataByte :", data)
+	err = f.CloseFile()
+	if err != nil {
+		logger.ErrorLogger.Println(err.Error())
+		return err
+	}
 	err = jsoner.JSONStructParseFromByteData(data, toAssign)
 	if err != nil {
 		logger.ErrorLogger.Println(err.Error())
 		return err
 	}
-	fmt.Println(toAssign)
 	logger.InfoLogger.Println("Reading JSON DB File Successful")
 	return nil
 }
@@ -65,17 +69,25 @@ func SaveJSONDBFile(data interface{}) error {
 	if data == nil {
 		return fmt.Errorf("data cannot be saved to file")
 	}
+	targetFullFileName := fmt.Sprintf("%v.%v", config.DATA_JSON_FILE_NAME, config.DATA_JSON_FILE_EXT)
+	targetPath := fmt.Sprintf("%v/%v", config.OUTPUT_PATH, targetFullFileName)
+	ReadJSONDBFile(targetFullFileName, data)
 	dataByte, err := jsoner.JSONParseToByteData(data)
 	if err != nil {
 		logger.ErrorLogger.Println(err.Error())
 		return err
 	}
-	f, err := filer.OpenFile(config.DB_FILE_PATH)
+	f, err := filer.OpenFile(targetPath)
 	if err != nil {
 		logger.ErrorLogger.Println(err.Error())
 		return err
 	}
 	err = f.WriteFile(dataByte)
+	if err != nil {
+		logger.ErrorLogger.Println(err.Error())
+		return err
+	}
+	err = f.CloseFile()
 	if err != nil {
 		logger.ErrorLogger.Println(err.Error())
 		return err
@@ -94,7 +106,7 @@ func GetURIKeys(r *http.Request, paramKey string, expectLen int) (interface{}, e
 	return URIKeys, nil
 }
 
-func StructHandler(structVal reflect.Value) error {
+func JSONStructHandler(structVal reflect.Value) error {
 	missings := []string{}
 	structType := structVal.Type()
 	for i := 0; i < structType.NumField(); i++ {

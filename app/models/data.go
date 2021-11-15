@@ -27,28 +27,30 @@ func GetData(key string) (interface{}, int, error) {
 	return data, http.StatusOK, nil
 }
 
-func AddData(reqBody *jsoner.Data) (interface{}, int, error) {
+func AddData(reqBody *jsoner.Data) (interface{}, interface{}, int, error) {
 	logger.InfoLogger.Println("Adding Data")
 	db := database.GetInMemDB()
 	err := db.AddData(reqBody.Key, reqBody.Val)
 	if err != nil {
 		logger.ErrorLogger.Println(err.Error())
-		return nil, http.StatusInsufficientStorage, err
+		return nil, nil, http.StatusInsufficientStorage, err
 	}
-	data, err := db.GetData(reqBody.Key)
+	addedData, err := db.GetData(reqBody.Key)
 	if err != nil {
 		logger.ErrorLogger.Println(err.Error())
-		return nil, http.StatusExpectationFailed, err
+		return nil, nil, http.StatusInsufficientStorage, err
 	}
 	logger.InfoLogger.Println("Data Added Successfully")
-	return data, http.StatusOK, nil
+	return addedData, db, http.StatusOK, nil
 }
 
 func DeleteAllData() interface{} {
+	logger.InfoLogger.Println("Deleting All Data")
 	db := database.GetInMemDB()
 	for key, _ := range db {
 		DeleteData(key)
 	}
+	logger.InfoLogger.Println("Deleted All Data Successful")
 	return db
 }
 
@@ -56,10 +58,12 @@ func DeleteData(key string) (interface{}, error) {
 	db := database.GetInMemDB()
 	data, err := db.GetData(key)
 	if err != nil {
+		logger.ErrorLogger.Println(err.Error())
 		return nil, err
 	}
 	err = db.DeleteData(key)
 	if err != nil {
+		logger.ErrorLogger.Println(err.Error())
 		return nil, err
 	}
 	return data, nil
