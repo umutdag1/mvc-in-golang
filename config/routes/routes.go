@@ -7,9 +7,9 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/rest-api/app/controllers"
-	"github.com/rest-api/app/libraries/logger"
-	"github.com/rest-api/config"
+	"github.com/umutdag1/yemeksepeti-odev/app/controllers"
+	"github.com/umutdag1/yemeksepeti-odev/app/libraries/logger"
+	"github.com/umutdag1/yemeksepeti-odev/config"
 )
 
 type Route struct {

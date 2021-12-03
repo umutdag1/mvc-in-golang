@@ -3,10 +3,10 @@ package app
 import (
 	"net/http"
 
-	"github.com/rest-api/app/libraries/logger"
-	"github.com/rest-api/config"
-	"github.com/rest-api/config/routes"
-	"github.com/rest-api/utils"
+	"github.com/umutdag1/yemeksepeti-odev/app/libraries/logger"
+	"github.com/umutdag1/yemeksepeti-odev/config"
+	"github.com/umutdag1/yemeksepeti-odev/config/routes"
+	"github.com/umutdag1/yemeksepeti-odev/utils"
 )
 
 type ServerMux struct {

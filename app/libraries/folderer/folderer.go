@@ -5,7 +5,7 @@ import (
 	"io/fs"
 	"io/ioutil"
 
-	"github.com/rest-api/app/libraries/logger"
+	"github.com/umutdag1/yemeksepeti-odev/app/libraries/logger"
 )
 
 var (

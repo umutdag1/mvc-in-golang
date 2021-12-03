@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	PROJECT_PATH    = "github.com/rest-api"
+	PROJECT_PATH    = "github.com/umutdag1/yemeksepeti-odev"
 	CONTROLLER_PATH = "app/controllers"
 	API_PORT        = "8080"
 	CUR_DIR         = func() string {

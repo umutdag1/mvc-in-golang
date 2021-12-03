@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/rest-api/app"
+	"github.com/umutdag1/yemeksepeti-odev/app"
 )
 
 func main() {

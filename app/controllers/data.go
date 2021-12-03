@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"reflect"
 
-	"github.com/rest-api/app/libraries/jsoner"
-	"github.com/rest-api/app/models"
-	"github.com/rest-api/utils"
+	"github.com/umutdag1/yemeksepeti-odev/app/libraries/jsoner"
+	"github.com/umutdag1/yemeksepeti-odev/app/models"
+	"github.com/umutdag1/yemeksepeti-odev/utils"
 )
 
 type Data struct{}

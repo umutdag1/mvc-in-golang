@@ -3,10 +3,10 @@ package database
 import (
 	"fmt"
 
-	"github.com/rest-api/app/libraries/filer"
-	"github.com/rest-api/app/libraries/folderer"
-	"github.com/rest-api/config"
-	"github.com/rest-api/utils"
+	"github.com/umutdag1/yemeksepeti-odev/app/libraries/filer"
+	"github.com/umutdag1/yemeksepeti-odev/app/libraries/folderer"
+	"github.com/umutdag1/yemeksepeti-odev/config"
+	"github.com/umutdag1/yemeksepeti-odev/utils"
 )
 
 type InMemDB map[string]interface{}

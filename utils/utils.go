@@ -6,10 +6,10 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/rest-api/app/libraries/filer"
-	"github.com/rest-api/app/libraries/jsoner"
-	"github.com/rest-api/app/libraries/logger"
-	"github.com/rest-api/config"
+	"github.com/umutdag1/yemeksepeti-odev/app/libraries/filer"
+	"github.com/umutdag1/yemeksepeti-odev/app/libraries/jsoner"
+	"github.com/umutdag1/yemeksepeti-odev/app/libraries/logger"
+	"github.com/umutdag1/yemeksepeti-odev/config"
 )
 
 type ApiResponse struct {

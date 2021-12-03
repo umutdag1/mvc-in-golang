@@ -3,9 +3,9 @@ package models
 import (
 	"net/http"
 
-	"github.com/rest-api/app/libraries/jsoner"
-	"github.com/rest-api/app/libraries/logger"
-	"github.com/rest-api/database"
+	"github.com/umutdag1/yemeksepeti-odev/app/libraries/jsoner"
+	"github.com/umutdag1/yemeksepeti-odev/app/libraries/logger"
+	"github.com/umutdag1/yemeksepeti-odev/database"
 )
 
 func GetAllData() (interface{}, int, error) {
