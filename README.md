@@ -45,8 +45,8 @@ HandMade MVC Framework  Golang Programlama Dili Ile Geliştirilmiş Bir Rest Api
 Golang Compiler indirildikten sonra, github üzerinden "https://github.com/umutdag1/yemeksepeti-odev.git" bağlantısını kullanarak "Command Prompt" dan aşağıdaki kod satırları sırasıyla uygulanır.
 
 ```sh
-git clone https://github.com/umutdag1/yemeksepeti-odev.git
-cd yemeksepeti-odev
+git clone https://github.com/umutdag1/mvc-in-golang.git
+cd mvc-in-golang
 go run main.go
 ```
 
