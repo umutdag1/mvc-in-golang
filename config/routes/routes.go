@@ -7,9 +7,9 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/umutdag1/yemeksepeti-odev/app/controllers"
-	"github.com/umutdag1/yemeksepeti-odev/app/libraries/logger"
-	"github.com/umutdag1/yemeksepeti-odev/config"
+	"github.com/umutdag1/mvc-in-golang/app/controllers"
+	"github.com/umutdag1/mvc-in-golang/app/libraries/logger"
+	"github.com/umutdag1/mvc-in-golang/config"
 )
 
 type Route struct {

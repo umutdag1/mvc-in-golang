@@ -3,9 +3,9 @@ package models
 import (
 	"net/http"
 
-	"github.com/umutdag1/yemeksepeti-odev/app/libraries/jsoner"
-	"github.com/umutdag1/yemeksepeti-odev/app/libraries/logger"
-	"github.com/umutdag1/yemeksepeti-odev/database"
+	"github.com/umutdag1/mvc-in-golang/app/libraries/jsoner"
+	"github.com/umutdag1/mvc-in-golang/app/libraries/logger"
+	"github.com/umutdag1/mvc-in-golang/database"
 )
 
 func GetAllData() (interface{}, int, error) {

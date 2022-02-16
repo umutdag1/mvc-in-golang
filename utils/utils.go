@@ -6,10 +6,10 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/umutdag1/yemeksepeti-odev/app/libraries/filer"
-	"github.com/umutdag1/yemeksepeti-odev/app/libraries/jsoner"
-	"github.com/umutdag1/yemeksepeti-odev/app/libraries/logger"
-	"github.com/umutdag1/yemeksepeti-odev/config"
+	"github.com/umutdag1/mvc-in-golang/app/libraries/filer"
+	"github.com/umutdag1/mvc-in-golang/app/libraries/jsoner"
+	"github.com/umutdag1/mvc-in-golang/app/libraries/logger"
+	"github.com/umutdag1/mvc-in-golang/config"
 )
 
 type ApiResponse struct {

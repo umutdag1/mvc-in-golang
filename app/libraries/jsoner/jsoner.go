@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"io"
 
-	"github.com/umutdag1/yemeksepeti-odev/app/libraries/logger"
+	"github.com/umutdag1/mvc-in-golang/app/libraries/logger"
 )
 
 type Data struct {

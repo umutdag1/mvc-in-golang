@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"reflect"
 
-	"github.com/umutdag1/yemeksepeti-odev/app/libraries/jsoner"
-	"github.com/umutdag1/yemeksepeti-odev/app/models"
-	"github.com/umutdag1/yemeksepeti-odev/utils"
+	"github.com/umutdag1/mvc-in-golang/app/libraries/jsoner"
+	"github.com/umutdag1/mvc-in-golang/app/models"
+	"github.com/umutdag1/mvc-in-golang/utils"
 )
 
 type Data struct{}

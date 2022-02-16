@@ -3,10 +3,10 @@ package app
 import (
 	"time"
 
-	"github.com/umutdag1/yemeksepeti-odev/app/libraries/logger"
-	"github.com/umutdag1/yemeksepeti-odev/config"
-	"github.com/umutdag1/yemeksepeti-odev/database"
-	"github.com/umutdag1/yemeksepeti-odev/utils"
+	"github.com/umutdag1/mvc-in-golang/app/libraries/logger"
+	"github.com/umutdag1/mvc-in-golang/config"
+	"github.com/umutdag1/mvc-in-golang/database"
+	"github.com/umutdag1/mvc-in-golang/utils"
 )
 
 func Init() {

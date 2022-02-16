@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/umutdag1/yemeksepeti-odev/app"
+	"github.com/umutdag1/mvc-in-golang/app"
 )
 
 func main() {

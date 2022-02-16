@@ -3,10 +3,10 @@ package database
 import (
 	"fmt"
 
-	"github.com/umutdag1/yemeksepeti-odev/app/libraries/filer"
-	"github.com/umutdag1/yemeksepeti-odev/app/libraries/folderer"
-	"github.com/umutdag1/yemeksepeti-odev/config"
-	"github.com/umutdag1/yemeksepeti-odev/utils"
+	"github.com/umutdag1/mvc-in-golang/app/libraries/filer"
+	"github.com/umutdag1/mvc-in-golang/app/libraries/folderer"
+	"github.com/umutdag1/mvc-in-golang/config"
+	"github.com/umutdag1/mvc-in-golang/utils"
 )
 
 type InMemDB map[string]interface{}
