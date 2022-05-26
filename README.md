@@ -40,6 +40,7 @@ HandMade New Generated Framework is a new coded-framework for creating Rest-API 
 
 ## Model
 - Model is responsible for making connection with or dealing with data on db by doing CRUD (CREATE-READ-UPDATE-DELETE) transaction. Depending on db behaviours, it will produce a result that is whether successful or failed for Controler, from where a request was done  
+
  (Model sadece database ya da database gibi davranan teknolojiler ile veri alışverişi yada CRUD (CREATE-READ-UPDATE-DELETE) işlemleri gibi istenilen komuta göre hata var ise hata, hata olmadığı durumda istenilen veriye yada yapılmak istenen işleme başarıyla gerçekleştirilir.)
 
 ## API Example (API Örnek)
