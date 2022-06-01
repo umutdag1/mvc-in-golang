@@ -34,12 +34,12 @@ HandMade New Generated Framework is a new coded-framework for creating Rest-API 
 
 ## Controller
 
-- Like all other MVC Frameworks, HandMade MVC Framework includes both Controller and Model machanisms. Controller is used for handling HTTP Request called from client side. All Controller you've created must include a structure of that Controller module itself. So, if a request is done to a function of which is written in Controller you've created, that function will be fired and automatically execute statements what you've typed in because of Controller module structure. It's done for all your Controller's functions. If the function you've requested is not created, then the application is ended with throwing an error.
+- Like all other MVC Frameworks, HandMade MVC Framework includes both Controller and Model machanisms. Controller is used for handling HTTP Request called from client side. All Controller you've created must include a structure of that Controller module itself. So, if a request is done to a function of which is written in Controller you've created, that function will be fired and automatically execute statements what you've typed in that function thanks to Controller module structure. Also, it's done for all your Controller's functions. However, if the function you've requested is not created, then the application is terminated after throwing an error.
 
  (Her MVC Framework'te olduğu gibi HandMade MVC Framework'tede  aynı Controller yapısı bulunmaktadır. Controller eğer bir istek çağırılmışsa, o isteğin handler'ının tanımlandığı kısım Controller'da bulunur. Her Controller'ın kendine ait struct tipinde bir modül tanımlanması gerekmektedir. Böylelikle Controllerda bir dosyanın içerisinde bir endpointe ait fonksiyon tanımlanmışsa ve o dosyaya ait bir modül tanımlanmışsa, modül bulunduğu yerdeki tanımlanan fonksiyonla aynı yerdeyse, program çalıştırıldığında sorunsuz olarak server çalıştırılacaktır. Eşleşmez ise program hatayı basar ve server'i başlatmadan sonlandırır.)
 
 ## Model
-- Model is responsible for making connection with or dealing with data on db by doing CRUD (CREATE-READ-UPDATE-DELETE) transaction. Depending on db behaviours, it will produce a result that is whether successful or failed for Controler, from where a request was done  
+- Model is responsible for accessing and/or dealing with data on db by doing CRUD (CREATE-READ-UPDATE-DELETE) transaction. Depending on what you've wanted to do with db's data, it will produce a result that'll be sent with whether a success or a failure message for the Controler that's been waiting for a response to be sent. 
 
  (Model sadece database ya da database gibi davranan teknolojiler ile veri alışverişi yada CRUD (CREATE-READ-UPDATE-DELETE) işlemleri gibi istenilen komuta göre hata var ise hata, hata olmadığı durumda istenilen veriye yada yapılmak istenen işleme başarıyla gerçekleştirilir.)
 
