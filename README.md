@@ -44,7 +44,7 @@ HandMade New Generated Framework is a new coded-framework for creating Rest-API 
  (Model sadece database ya da database gibi davranan teknolojiler ile veri alışverişi yada CRUD (CREATE-READ-UPDATE-DELETE) işlemleri gibi istenilen komuta göre hata var ise hata, hata olmadığı durumda istenilen veriye yada yapılmak istenen işleme başarıyla gerçekleştirilir.)
 
 ## API Example (API Örnek)
-| EndPoint | Method | Kullanım | Özellik |
+| EndPoint | Method | Usage | Feature |
 | ------ | ------ | ------ | ------ |
 | /api/getAll | GET | No Parameters | Getting All Data from InMemory |
 | /api/get | GET  | /api/get?key="key" | Getting Data Depending On Specified "key" |
